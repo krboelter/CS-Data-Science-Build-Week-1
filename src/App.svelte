@@ -1,10 +1,12 @@
 <script>
 	export let name;
+	export let fav_color;
 </script>
 
 <main>
 	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	<p>Welcome to Conway's Game of Life!</p>
+	<p>Hello, my favorite color is {fav_color}</p>
 </main>
 
 <style>
