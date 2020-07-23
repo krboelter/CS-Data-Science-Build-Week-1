@@ -1,0 +1,13 @@
+.container {
+	width: 50%;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	margin-top: 80px;
+}
+
+#canvas {
+	border: 1px solid black;
+	width: 400px;
+	height: 400px;
+}
