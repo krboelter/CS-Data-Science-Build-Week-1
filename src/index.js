@@ -1,44 +1,92 @@
 import './style.css'
 
-let canvas = document.querySelector('#canvas')
-let ctx = canvas.getContext('2d')
 
-let width = 400
-let height = 400
-canvas.width = width
-canvas.height = height
+window.addEventListener('DOMContentLoaded', (e) => {
 
-// width/height in pixels
-function draw_grid(width, height, rows, cols) {
-	let r = width / rows
-	let c = height / cols
+	const canvas = document.querySelector('#canvas')
+	const ctx = canvas.getContext('2d')
 
-	// make rows an array of 1's and 0's
-	let board = []
-	// use rows for how many indicies to make
-	// use collumns for how many arrays to make
-	// fill them all with 0's
-	// if it has a 1 in the position, that cell needs to be filled in
-	
-	// fill in the cell by taking the index of that cell times r to that number plus r
-	// do the same for columns
-	console.log(`Rows: ${r}, Columns: ${c}`)
+	const width = 400
+	const height = 400
+	canvas.width = width
+	canvas.height = height
 
-	for (let i = 0; i <= width - r; i += r) {
-		let row_arr = []
-		for (let j = 0; j <= height - c; j += c) {
-			// add an empty square for each row
-			ctx.strokeRect(i, j, r, c)
-			
-			// add a row for every loop
-			row_arr.push(0)
+
+	class Board {
+		constructor(width, height, rows, cols) {
+			this.width = width
+			this.height = height
+			this.rows = rows
+			this.cols = cols
+			this.board = []
+			this.cellWidth = this.width/this.rows
+			this.cellHeight = this.height/this.cols
 		}
 
-		board.push(row_arr)
-	}
-	console.log(board)
-	ctx.lineWidth = 0.5
-	ctx.stroke()
-}
 
-draw_grid(width, height, 30, 30)
+		createBoard() {
+			for (let i = 0; i <= this.width - this.cellWidth; i += this.cellWidth) {
+				const row_arr = []
+				for (let j = 0; j <= this.height - this.cellHeight; j += this.cellHeight) {
+					// add an empty square for each row
+					ctx.lineWidth = 0.5
+					ctx.strokeRect(i, j, this.cellWidth, this.cellHeight)
+					
+					// add a row for every loop
+					row_arr.push(0)
+				}
+
+				this.board.push(row_arr)
+			}
+			console.log(this.board, "BOARD")
+		}
+
+		
+		sendAttbs() {
+			return {
+				width: this.cellWidth,
+				height: this.cellHeight
+			}
+		}
+
+	}
+
+
+	class Circle {
+		constructor(posX, posY, radius) {
+			this.posX = posX
+			this.posY = posY
+			this.radius = radius
+		}
+	}
+
+	Circle.prototype.draw = () => {
+		ctx.arc(this.posX, this.posY, radius, 0, (Math.PI * 2), true)
+		// move 0, 0 of circle to the center
+	}
+
+	Circle.prototype.setToCell = (posX, posY) => {
+	}
+
+
+	const board = new Board(width, height, 30, 30)
+	board.createBoard()
+
+	canvas.addEventListener('click', e => {
+		let x = e.offsetX
+		let y = e.offsetY
+		let params = board.sendAttbs()
+
+		const width = params.width
+		const height = params.height
+
+		// index of board row will be the mouse posX / width (possibly need to + 1)
+		if (x >= width / x) {
+			console.log(width / x)
+		}
+		// column of board will be mouse posY / height (possibly need to + 1)
+		// to get center of the cell, when dividing mouse posX / width and posY / height, (assuming you have the right side of cell) subtract half of a cell
+		const cir = new Circle()
+	})
+
+})
