@@ -3,14 +3,14 @@ import createBoard from './components/createBoard'
 
 const canvas = document.querySelector('#canvas')
 const ctx = canvas.getContext('2d')
-const width = 400
-const height = 400
+const width = 600
+const height = 500
 canvas.width = width
 canvas.height = height
 
 
 function main() {
-	createBoard(ctx, width, height, 20, 20)
+	createBoard(ctx, canvas, width, height, 30, 30)
 }
 
 canvas.addEventListener('click', e => {

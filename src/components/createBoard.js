@@ -1,4 +1,4 @@
-function createBoard(ctx, width, height, cols, rows) {
+function createBoard(ctx, canvas, width, height, cols, rows) {
 	const cellWidth = width/cols
 	const cellHeight = width/rows
 
@@ -13,7 +13,7 @@ function createBoard(ctx, width, height, cols, rows) {
 
 	let grid;
 
-	// makes the grid
+	// makes the grid with random 1, 0
 	function makeGrid() {
  		grid = make2DArray(cols, rows)
 		for (let i = 0; i < cols; i++) {
@@ -24,34 +24,38 @@ function createBoard(ctx, width, height, cols, rows) {
 	}
 	makeGrid()
 
+	// draw black or white square, calculate rules
 	function draw() {
+		// fills the square based on 1 or 0
 		for (let i = 0; i < cols; i++) {
 			for (let j = 0; j < rows; j++) {
 				const x = i * cellWidth
 				const y = j * cellHeight
 
 				if (grid[i][j] == 1) {
-					ctx.fill()
-					ctx.stroke()
-					ctx.rect(x, y, cellWidth, cellHeight)
+					ctx.fillStyle = 'black'
+					ctx.fillRect(x, y, cellWidth, cellHeight)
+				} else if (grid[i][j] == 0) {
+					ctx.fillStyle = 'white'
+					ctx.fillRect(x, y, cellWidth, cellHeight)
 				}
 			}
+			
 		}
-
 
 		const next = make2DArray(cols, rows)
 
+		// implaments rules
 		for (let i = 0; i < cols; i++) {
 			for (let j = 0; j < rows; j++) {
 				const state = grid[i][j]
 
-				// count neighbors
-				// for the edges
-				if (i == 0 || i == cols - 1 || j == 0 || j == cols - 1) {
+				// evaluates edges
+				if (i == 0 || i == cols - 1 || j == 0 || j == rows - 1) {
 					next[i][j] = state
 				} else {
 
-					let sum = 0
+					// evaluates neighbors
 					let neighbors = countNeighbors(grid, i, j)
 
 					if (state == 0 && neighbors == 3) {
@@ -64,8 +68,8 @@ function createBoard(ctx, width, height, cols, rows) {
 				}
 			}
 		}
-
 		grid = next
+		console.log(grid)
 	}
 
 	function loop() {
