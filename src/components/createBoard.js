@@ -18,11 +18,19 @@ function createBoard(ctx, canvas, width, height, cols, rows) {
  		grid = make2DArray(cols, rows)
 		for (let i = 0; i < cols; i++) {
 			for (let j = 0; j < rows; j++) {
-				grid[i][j] = Math.floor(Math.random() * 2)
+				grid[i][j] = 0
 			}
 		}
 	}
 	makeGrid()
+
+	canvas.addEventListener('click', e => {
+		let myX = Math.floor(e.offsetX / cellWidth)
+		let myY = Math.floor(e.offsetY / cellHeight)
+
+		grid[myX][myY] = 1
+	})
+
 
 	// draw black or white square, calculate rules
 	function draw() {
@@ -50,28 +58,22 @@ function createBoard(ctx, canvas, width, height, cols, rows) {
 			for (let j = 0; j < rows; j++) {
 				const state = grid[i][j]
 
-				// evaluates edges
-				if (i == 0 || i == cols - 1 || j == 0 || j == rows - 1) {
+				// evaluates neighbors
+				let neighbors = countNeighbors(grid, i, j)
+
+				if (state == 0 && neighbors == 3) {
+					next[i][j] = 1
+				} else if (state == 1 && (neighbors < 2 || neighbors > 3)) {
+					next[i][j] = 0
+				} else { 
 					next[i][j] = state
-				} else {
-
-					// evaluates neighbors
-					let neighbors = countNeighbors(grid, i, j)
-
-					if (state == 0 && neighbors == 3) {
-						next[i][j] = 1
-					} else if (state == 1 && (neighbors < 2 || neighbors > 3)) {
-						next[i][j] = 0
-					} else { 
-						next[i][j] = state
-					}
 				}
 			}
 		}
 		grid = next
-		console.log(grid)
 	}
 
+	// first just draw the grid, then if the person presses 'play' play the loop with the current grid
 	function loop() {
 		draw()
 		requestAnimationFrame(loop)
@@ -81,7 +83,11 @@ function createBoard(ctx, canvas, width, height, cols, rows) {
 		let sum = 0
 		for (let i = -1; i < 2; i++) {
 			for (let j = -1; j < 2; j++) {
-				sum += grid[x + i][y + j]
+
+				let col = (x + i + cols) % cols
+				let row = (y + j + rows) % rows
+
+				sum += grid[col][row]
 			}
 		}
 
