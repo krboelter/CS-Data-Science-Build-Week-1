@@ -16,6 +16,7 @@ let loopActive = false
 canvas.width = width
 canvas.height = height
 
+
 // create the board
 createBoard(ctx, cols, rows, cellWidth, cellHeight)
 
@@ -57,3 +58,7 @@ canvas.addEventListener('click', e => {
 
 	grid[myX][myY] = 1
 })
+
+
+
+

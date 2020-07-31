@@ -15,11 +15,12 @@ export function createBoard(ctx, cols, rows, cellWidth, cellHeight) {
 		grid = make2DArray(cols, rows)
 		for (let i = 0; i < cols; i++) {
 			for (let j = 0; j < rows; j++) {
-				// grid[i][j] = 0
+				grid[i][j] = 0
 				const x = i * cellWidth
 				const y = j * cellHeight
 
 				grid[i][j] = Math.floor(Math.random() * 2)
+				ctx.lineWidth = 0.5
 				ctx.strokeRect(x, y, cellWidth, cellHeight)
 			}
 		}
@@ -42,6 +43,7 @@ export function draw(ctx, canvas, cols, rows, cellWidth, cellHeight) {
 			} else if (grid[i][j] == 0) {
 				ctx.fillStyle = 'white'
 				ctx.fillRect(x, y, cellWidth, cellHeight)
+				ctx.strokeRect(x, y, cellWidth, cellHeight)
 			}
 		}
 		
