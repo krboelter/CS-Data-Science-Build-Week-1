@@ -1,24 +1,29 @@
 import './style.css'
-import {grid, createBoard, draw} from './components/createBoard'
+import {grid, createBoard, createRandomBoard, setup, draw} from './components/createBoard'
 
 const canvas = document.querySelector('#canvas')
 const startGame = document.querySelector('.start-game')
 const stopGame = document.querySelector('.stop-game')
+const rand = document.querySelector('.randomize')
 
 const ctx = canvas.getContext('2d')
 const width = 400
 const height = 400
-const rows = 60
-const cols = 60
+const rows = 30
+const cols = 30
 const cellWidth = width / rows
 const cellHeight = height / cols
 let loopActive = false
+let random = false
 canvas.width = width
 canvas.height = height
 
 
-// create the board
 createBoard(ctx, cols, rows, cellWidth, cellHeight)
+// create the board
+rand.addEventListener('click', e=> {
+	createRandomBoard(ctx, cols, rows, cellWidth, cellHeight)
+})
 
 // buttons to start/stop the animation frame
 startGame.addEventListener('click', e => {
@@ -51,12 +56,12 @@ function stop() {
 
 // add custom shapes to the board
 canvas.addEventListener('click', e => {
-	let myX = Math.floor(e.offsetX / cellWidth) - 1
-	let myY = Math.floor(e.offsetY / cellHeight) - 1
+	let myX = Math.floor(e.offsetX / cellWidth)
+	let myY = Math.floor(e.offsetY / cellHeight)
 	console.log(`x: ${myX}, y: ${myY}`)
-	console.log(grid)
 
 	grid[myX][myY] = 1
+	setup(ctx, cols, rows, cellWidth, cellHeight)
 })
 
 

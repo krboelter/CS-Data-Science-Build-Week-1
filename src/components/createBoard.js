@@ -1,4 +1,11 @@
 export let grid;
+let color = "black"
+let randBlock = 0
+const blackBtn = document.querySelector('.black')
+const blueBtn = document.querySelector('.blue')
+const greenBtn = document.querySelector('.green')
+const redBtn = document.querySelector('.red')
+const rand = document.querySelector('.randomize')
 
 // setup 2d array
 function make2DArray(cols, rows) {
@@ -19,7 +26,24 @@ export function createBoard(ctx, cols, rows, cellWidth, cellHeight) {
 				const x = i * cellWidth
 				const y = j * cellHeight
 
+				ctx.lineWidth = 0.5
+				ctx.strokeRect(x, y, cellWidth, cellHeight)
+			}
+		}
+	}
+	makeGrid()
+}
+
+// set up 2d array with random
+export function createRandomBoard(ctx, cols, rows, cellWidth, cellHeight) {
+	function makeGrid() {
+		grid = make2DArray(cols, rows)
+		for (let i = 0; i < cols; i++) {
+			for (let j = 0; j < rows; j++) {
 				grid[i][j] = Math.floor(Math.random() * 2)
+				const x = i * cellWidth
+				const y = j * cellHeight
+
 				ctx.lineWidth = 0.5
 				ctx.strokeRect(x, y, cellWidth, cellHeight)
 			}
@@ -29,16 +53,31 @@ export function createBoard(ctx, cols, rows, cellWidth, cellHeight) {
 }
 
 
-// draw black or white square, calculate rules
-export function draw(ctx, canvas, cols, rows, cellWidth, cellHeight) {
-	// fills the square based on 1 or 0
+blackBtn.addEventListener('click', e => {
+	color = 'black'
+})
+
+blueBtn.addEventListener('click', e => {
+	color = 'blue'
+})
+
+greenBtn.addEventListener('click', e => {
+	color = 'green'
+})
+
+redBtn.addEventListener('click', e => {
+	color = 'red'
+})
+
+export function setup(ctx, cols, rows, cellWidth, cellHeight) {
 	for (let i = 0; i < cols; i++) {
 		for (let j = 0; j < rows; j++) {
 			const x = i * cellWidth
 			const y = j * cellHeight
 
+
 			if (grid[i][j] == 1) {
-				ctx.fillStyle = 'black'
+				ctx.fillStyle = `${color}`
 				ctx.fillRect(x, y, cellWidth, cellHeight)
 			} else if (grid[i][j] == 0) {
 				ctx.fillStyle = 'white'
@@ -48,6 +87,12 @@ export function draw(ctx, canvas, cols, rows, cellWidth, cellHeight) {
 		}
 		
 	}
+}
+
+// draw black or white square, calculate rules
+export function draw(ctx, canvas, cols, rows, cellWidth, cellHeight) {
+	// fills the square based on 1 or 0
+	setup(ctx, cols, rows, cellWidth, cellHeight)
 
 	const next = make2DArray(cols, rows)
 
