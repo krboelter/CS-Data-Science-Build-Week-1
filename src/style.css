@@ -56,3 +56,12 @@ body {
 li {
 	list-style: none;
 }
+
+.gen-container {
+	display: flex;
+	flex-direction: row;
+}
+
+.gen-word {
+	padding: 0 8px;
+}

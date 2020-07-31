@@ -1,4 +1,5 @@
 export let grid;
+export let generation;
 let color = "black"
 let randBlock = 0
 const blackBtn = document.querySelector('.black')
@@ -89,8 +90,13 @@ export function setup(ctx, cols, rows, cellWidth, cellHeight) {
 	}
 }
 
+generation = 0
+const gen = document.querySelector('.generation')
 // draw black or white square, calculate rules
 export function draw(ctx, canvas, cols, rows, cellWidth, cellHeight) {
+	generation += 1
+	console.log(generation)
+	gen.innerText = generation
 	// fills the square based on 1 or 0
 	setup(ctx, cols, rows, cellWidth, cellHeight)
 
@@ -116,6 +122,11 @@ export function draw(ctx, canvas, cols, rows, cellWidth, cellHeight) {
 	grid = next
 }
 
+export function resetGen() {
+	generation = 0
+	gen.innerText = generation
+}
+
 
 function countNeighbors(grid, cols, rows, x, y) {
 	let sum = 0
@@ -132,7 +143,4 @@ function countNeighbors(grid, cols, rows, x, y) {
 	sum -= grid[x][y]
 	return sum
 }
-
-
-export default createBoard
 

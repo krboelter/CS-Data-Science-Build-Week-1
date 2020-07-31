@@ -1,5 +1,5 @@
 import './style.css'
-import {grid, createBoard, createRandomBoard, setup, draw} from './components/createBoard'
+import {grid, generation, resetGen, createBoard, createRandomBoard, setup, draw} from './components/createBoard'
 
 const canvas = document.querySelector('#canvas')
 const startGame = document.querySelector('.start-game')
@@ -24,6 +24,7 @@ canvas.height = height
 // clear canvas
 clear.addEventListener('click', e => {
 	stop()
+	resetGen()
 	ctx.clearRect(0, 0, width, height)
 	createBoard(ctx, cols, rows, cellWidth, cellHeight)
 })
