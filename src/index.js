@@ -5,6 +5,8 @@ const canvas = document.querySelector('#canvas')
 const startGame = document.querySelector('.start-game')
 const stopGame = document.querySelector('.stop-game')
 const rand = document.querySelector('.randomize')
+const clear = document.querySelector('.clear')
+const step = document.querySelector('.step')
 
 const ctx = canvas.getContext('2d')
 const width = 400
@@ -19,10 +21,25 @@ canvas.width = width
 canvas.height = height
 
 
-createBoard(ctx, cols, rows, cellWidth, cellHeight)
+// clear canvas
+clear.addEventListener('click', e => {
+	stop()
+	ctx.clearRect(0, 0, width, height)
+	createBoard(ctx, cols, rows, cellWidth, cellHeight)
+})
+
 // create the board
+createBoard(ctx, cols, rows, cellWidth, cellHeight)
+
+// create random board
 rand.addEventListener('click', e=> {
 	createRandomBoard(ctx, cols, rows, cellWidth, cellHeight)
+	draw(ctx, canvas, cols, rows, cellWidth, cellHeight)
+})
+
+step.addEventListener('click', e => {
+	setup(ctx, cols, rows, cellWidth, cellHeight)
+	draw(ctx, canvas, cols, rows, cellWidth, cellHeight)
 })
 
 // buttons to start/stop the animation frame
